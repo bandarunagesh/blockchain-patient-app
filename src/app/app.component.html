@@ -1,21 +1,78 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<div class="container">
+  <div [hidden]="submitted">
+    <h1>Registration From</h1>
+    <form (ngSubmit)="onSubmit()" #heroForm="ngForm">
+      <div class="form-group">
+        <label for="first_name">First Name</label>
+        <input type="text" class="form-control" id="first_name" required [(ngModel)]="first_name" name="first_name">
+        <div [hidden]="first_name.$valid || first_name.pristine" class="alert alert-danger">
+          First Name is required
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="first_name">Last Name</label>
+        <input type="text" class="form-control" id="first_name" required [(ngModel)]="last_name" name="last_name">
+        <div [hidden]="last_name.valid || last_name.pristine" class="alert alert-danger">
+          Last Name is required
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="first_name">Date of Birth</label>
+        <input type="text" class="form-control" id="first_name" required [(ngModel)]="DOB" name="DOB">
+        <div [hidden]="DOB.valid || DOB.pristine" class="alert alert-danger">
+          DOB is required
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="first_name">Mail</label>
+        <input type="text" class="form-control" id="first_name" required [(ngModel)]="mail" name="mail">
+        <div [hidden]="mail.valid || mail.pristine" class="alert alert-danger">
+          mail is required
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="first_name">SSN</label>
+        <input type="text" class="form-control" id="first_name" [(ngModel)]="SSN" name="SSN">
+
+      </div>
+      <div class="form-group">
+        <label for="first_name">MSP</label>
+        <input type="text" class="form-control" id="first_name" [(ngModel)]="MSP" name="MSP">
+
+      </div>
+      <button type="submit" class="btn btn-success" [disabled]="!heroForm.form.valid">Submit</button>
+    </form>
+  </div>
+
+  <div [hidden]="!submitted">
+    <h2>You submitted the following:</h2>
+    <div class="row">
+      <div class="col-xs-3">First Name</div>
+      <div class="col-xs-9">{{ first_name }}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">Last Name</div>
+      <div class="col-xs-9">{{ last_name }}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">Email ID</div>
+      <div class="col-xs-9">{{ mail }}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">DOB</div>
+      <div class="col-xs-9">{{ DOB }}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">SSN</div>
+      <div class="col-xs-9">{{ SSN }}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">MSP</div>
+      <div class="col-xs-9">{{ MSP }}</div>
+    </div>
+    <br>
+    <button class="btn btn-primary" (click)="submitted=false">Edit</button>
+  </div>
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
 
 <router-outlet></router-outlet>
