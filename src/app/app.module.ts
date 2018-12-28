@@ -6,9 +6,13 @@ import { AppComponent } from './app.component';
 
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { SigninComponent } from './signin/signin.component';
+import { RegisterComponent } from './register/register.component';
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SigninComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

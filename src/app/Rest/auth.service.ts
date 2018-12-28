@@ -1,20 +1,25 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { Route, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private http: HttpClient) { }
-  baseUrl = 'http://192.168.0.6:4000/users'
-
-
+  constructor(private http: HttpClient, private route: Router
+  ) { }
+  baseUrl = 'http://192.168.0.6:4000/users';
 
   gettoken() {
+    return localStorage.getItem('token');
+  }
+  getUserName() {
+    return localStorage.getItem('username');
+  }
+  signIn(username: string) {
     const body = new HttpParams()
-      .set('username', 'nagesh')
+      .set('username', username)
       .set('orgName', 'Org1');
 
     return this.http.post(this.baseUrl,
@@ -25,24 +30,23 @@ export class AuthService {
       }
     ).subscribe(
       (data: any) => {
-        console.log('success', data),
-          localStorage.setItem('token', data.token)
+        console.log('success', data);
+        debugger;
+        localStorage.setItem('token', data.token);
+        this.getUserDetails(username);
       },
       error => {
-        debugger
-        console.log('oops', error)
+        console.log('oops', error);
+        localStorage.setItem('token', '');
+        localStorage.setItem('username', '');
       }
     );
   }
 
   submitPostRequest(body: any) {
-    debugger
     return this.http.post('http://192.168.0.6:4000/channels/mychannel/chaincodes/patient',
-      {
-        "peers": ["peer0.org1.example.com", "peer0.org2.example.com"],
-        "fcn": "initPatient",
-        "args": ["124522", "test11", "user", "nagesh@outlook.com", "11-10-1985", "111111", "444441"]
-      },
+      body
+      ,
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/json')
@@ -50,13 +54,52 @@ export class AuthService {
       }
     ).subscribe(
       (data: any) => {
-        debugger
         console.log('success', data),
           localStorage.setItem('token', data.token)
       },
-      error => {
-        debugger
-        console.log('oops', error)
+      (error: any) => {
+        console.log('oops', error.error.text)
+      }
+    );
+  }
+
+  getUserDetails(username: string) {
+    const body = new HttpParams()
+      .set('username', username)
+      .set('orgName', 'Org1');
+
+    return this.http.get(`http://192.168.0.6:4000/channels/mychannel/chaincodes/patient?peer=peer0.org1.example.com&fcn=readPatient&args=%5B%22${username}%22%5D`,
+      {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/json')
+          .set('authorization', `Bearer ${localStorage.getItem('token')}`)
+      }
+    ).subscribe(
+      (data: any) => {
+        console.log('success', data);
+        localStorage.setItem('username', username);
+        localStorage.setItem('userDetails', data);
+
+        this.route.navigate(['/register']);
+      },
+      (error: any) => {
+        debugger;
+        const errorIndex = error.error.text.indexOf('Error');
+        if (errorIndex > 0) {
+          alert("User does not exists");
+        } else {
+          const startIndex = error.error.text.indexOf('{');
+          const endIndex = error.error.text.indexOf('}') + 1;
+
+          let data = JSON.parse(error.error.text.substring(startIndex, endIndex));
+
+          console.log('oops', error);
+          console.log('success', error);
+          localStorage.setItem('username', username);
+          localStorage.setItem('userDetails', JSON.stringify(data));
+
+          this.route.navigate(['/register']);
+        }
       }
     );
   }
