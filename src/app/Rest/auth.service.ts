@@ -9,7 +9,8 @@ export class AuthService {
 
   constructor(private http: HttpClient, private route: Router
   ) { }
-  baseUrl = 'http://192.168.0.6:4000/users';
+  //baseUrl = 'http://192.168.1.2:4000';
+  baseUrl = 'http://35.243.218.65:4000';
 
   gettoken() {
     return localStorage.getItem('token');
@@ -22,7 +23,7 @@ export class AuthService {
       .set('username', username)
       .set('orgName', 'Org1');
 
-    return this.http.post(this.baseUrl,
+    return this.http.post(this.baseUrl+'/users',
       body.toString(),
       {
         headers: new HttpHeaders()
@@ -44,7 +45,7 @@ export class AuthService {
   }
 
   submitPostRequest(body: any) {
-    return this.http.post('http://192.168.0.6:4000/channels/mychannel/chaincodes/patient',
+    return this.http.post(`${this.baseUrl}/channels/mychannel/chaincodes/patient`,
       body
       ,
       {
@@ -68,7 +69,7 @@ export class AuthService {
       .set('username', username)
       .set('orgName', 'Org1');
 
-    return this.http.get(`http://192.168.0.6:4000/channels/mychannel/chaincodes/patient?peer=peer0.org1.example.com&fcn=readPatient&args=%5B%22${username}%22%5D`,
+    return this.http.get(`${this.baseUrl}/channels/mychannel/chaincodes/patient?peer=peer0.org1.example.com&fcn=readPatient&args=%5B%22${username}%22%5D`,
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/json')
@@ -78,14 +79,14 @@ export class AuthService {
       (data: any) => {
         console.log('success', data);
         localStorage.setItem('username', username);
-        localStorage.setItem('userDetails', data);
-
+        localStorage.setItem('userDetails', data);  
         this.route.navigate(['/register']);
       },
       (error: any) => {
         debugger;
         const errorIndex = error.error.text.indexOf('Error');
         if (errorIndex > 0) {
+          
           alert("User does not exists");
         } else {
           const startIndex = error.error.text.indexOf('{');
@@ -102,6 +103,23 @@ export class AuthService {
         }
       }
     );
+  }
+
+
+  getUserHistory(username: string):any {
+   
+    const body = new HttpParams()
+      .set('username', username)
+      .set('orgName', 'Org1');
+
+    return this.http.get(`${this.baseUrl}/channels/mychannel/chaincodes/patient?peer=peer0.org1.example.com&fcn=getHistoryForPatient&args=%5B%22${username}%22%5D`,
+      {
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/json')
+          .set('authorization', `Bearer ${localStorage.getItem('token')}`)
+      }
+    )
+    
   }
 
 }

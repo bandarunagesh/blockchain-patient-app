@@ -1,12 +1,32 @@
 <div class="container">
     <div [hidden]="submitted">
+        <div class="col-sm-5 navbar-collapse collapse main-nav navbar-right">
+            <ul class="nav navbar-nav inner-drop-nav mobin-drop-nav">
+              
+                <button type="button" (click)="onHistory()" class="btn btn-primary float-right">History</button>
+              
+            </ul>
+        </div>
+    
       <h1>Registration From</h1>
+
+
+
+
+
       <form (ngSubmit)="onSubmit()" #heroForm="ngForm">
           <div class="form-group">
               <label for="first_name">Usere Id</label>
               <input type="text" class="form-control" id="first_name" required [(ngModel)]="id" name="id">
             
             </div>
+              <div class="form-group">
+              <label for="provider_name">Enter Provider name who can access your details</label>
+              <input type="text" class="form-control" id="provider_name" required [(ngModel)]="provider_name" name="provider_name">
+            
+            </div>
+           
+
         <div class="form-group">
           <label for="first_name">First Name</label>
           <input type="text" class="form-control" id="first_name" required [(ngModel)]="first_name" name="first_name">
@@ -42,7 +62,11 @@
     </div>
   
     <div [hidden]="!submitted">
-      <h2>You submitted the following:</h2>
+      <h2>Your Enrollment/Updates has been completed sucessfully, below are the details:</h2>
+      <div class="row">
+          <div class="col-xs-3">Provier Name</div>
+          <div class="col-xs-9">{{ provider_name }}</div>
+        </div>
       <div class="row">
         <div class="col-xs-3">First Name</div>
         <div class="col-xs-9">{{ first_name }}</div>
@@ -68,6 +92,6 @@
         <div class="col-xs-9">{{ MSP }}</div>
       </div>
       <br>
-      <button class="btn btn-primary" (click)="submitted=false">Edit</button>
+    <!-- <button class="btn btn-primary" (click)="submitted=false">Edit</button> -->
     </div>
   </div>
