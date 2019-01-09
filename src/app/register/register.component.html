@@ -1,17 +1,10 @@
 <div class="container">
     <div [hidden]="submitted">
-        <div class="col-sm-5 navbar-collapse collapse main-nav navbar-right">
-            <ul class="nav navbar-nav inner-drop-nav mobin-drop-nav">
-              
-                <button type="button" (click)="onHistory()" class="btn btn-primary float-right">History</button>
-              
-            </ul>
-        </div>
-    
+        
       <h1>Registration From</h1>
-
-
-
+      <button type="button" (click)="onHistory()" class="btn btn-primary float-auto">History</button>
+       <br/> 
+       <br/>
 
 
       <form (ngSubmit)="onSubmit()" #heroForm="ngForm">

@@ -10,7 +10,8 @@ export class AuthService {
   constructor(private http: HttpClient, private route: Router
   ) { }
   //baseUrl = 'http://192.168.1.2:4000';
-  baseUrl = 'http://35.243.218.65:4000';
+  //baseUrl = 'http://35.211.11.214:4000';
+  baseUrl = 'http://52.66.207.50:4000';
 
   gettoken() {
     return localStorage.getItem('token');

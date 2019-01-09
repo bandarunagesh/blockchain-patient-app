@@ -18,24 +18,7 @@ export class RegisterComponent implements OnInit {
   SSN = "";
   MSP = "";
   id = '';
-  devices = 'Nyu ,two ,   three are two things'.split(',');
-  
-    "process-templates": [
-        {
-            "name": "ABC",
-            "desc": "ABC"
-        },
-        {
-            "name": "XYZ",
-            "desc": "XYZ"
-        },
-        {
-            "name": "PQR",
-            "desc": "PQR"
-        }
-     ];
-    
-
+ 
   onSubmit() {
     this.submitted = true;
     const body = {
